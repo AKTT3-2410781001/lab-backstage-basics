@@ -5,7 +5,16 @@ FROM gcr.io/distroless/nodejs24-debian12
 
 WORKDIR /app
 COPY src/main.js ./
-
 EXPOSE 8000
+
+# These will be replaced during template rendering
+ARG SERVICE_NAME="${{ values.name }}"
+ARG SERVICE_DESCRIPTION="${{ values.description }}"
+ARG SERVICE_OWNER="${{ values.owner }}"
+
+# Set metadata using the build args
+LABEL service.name="${SERVICE_NAME}"
+LABEL service.description="${SERVICE_DESCRIPTION}"
+LABEL service.owner="${SERVICE_OWNER}"
 
 CMD ["main.js"]

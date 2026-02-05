@@ -6,9 +6,9 @@ name: Build Docker Image
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -27,5 +27,10 @@ jobs:
           context: .
           file: ./template-base/Dockerfile
           push: false
+          build-args: |
+            SERVICE_NAME=${{ values.name }}
+            SERVICE_DESCRIPTION=${{ values.description }}
+            SERVICE_OWNER=${{ values.owner }}
           tags: |
-            templated-service:${{ github.sha }}
+            ${{ values.name }}:${{ github.sha }}
+            ${{ values.name }}:latest
